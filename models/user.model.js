@@ -7,25 +7,11 @@ const UserSchema = new Schema({
        required: true
     },
     email: String,
-    password: String,
-    facebookId: String,
-    googleId: String,
-    favoriteProducts: [
+    password: String, 
+    transactions: [
         {
             type: Schema.Types.ObjectId, 
-            ref: "Products"
-        }
-    ], 
-    viewedProducts: [
-        {
-            type: Schema.Types.ObjectId, 
-            ref: "Products"
-        }
-    ], 
-    orders: [
-        {
-            type: Schema.Types.ObjectId, 
-            ref: "Orders"
+            ref: "Transactions"
         }
     ]
 }, { timestamps: true });
