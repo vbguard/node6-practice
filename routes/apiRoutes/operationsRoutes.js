@@ -1,7 +1,14 @@
 const router = require('express').Router();
 const operationsControllers = require('../../controllers/operations');
+const authCheck = require('../../middleware/authCheck.js');
 
-router.post('/income', operationsControllers.incomeOperations);
-router.post('/costs', operationsControllers.costsOperations);
+const passport = require('passport');
+
+const passportCheckJwt = passport.authenticate('jwt', {
+  session: false
+}); 
+
+router.post('/income', passportCheckJwt, operationsControllers.incomeOperations);
+router.post('/costs', passportCheckJwt, operationsControllers.costsOperations);
 
 module.exports = router;

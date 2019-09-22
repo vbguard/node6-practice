@@ -4,9 +4,9 @@ const Users = require("../../models/user.model.js");
 
 const incomeOperations = (req, res) => {
   const newData = req.body;
+  const userId = req.user.id;
 
   const schema = Joi.object().keys({
-    userId: Joi.string().required(),
     comments: Joi.string().required(),
     amount: Joi.number().required(),
     balanceAfter: Joi.number().required(),
@@ -23,13 +23,13 @@ const incomeOperations = (req, res) => {
   }
 
   if (result.value) {
-  const newOperations = new Transactions(result.value);
+  const newOperations = new Transactions({...result.value, userId });
 
   newOperations
     .save()
     .then(result => {
       if (result) {
-        Users.findByIdAndUpdate(newData.userId, {
+        Users.findByIdAndUpdate(userId, {
           $push: { transactions: newOperations._id }
         })
           .then(result => {
